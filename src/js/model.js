@@ -1,9 +1,19 @@
-import { API_URL, API_KEY } from "./config";
+import { API_URL, API_KEY, GEO_API_KEY } from "./config";
 
 export const state = {
     city: '',
     country: '',
-    weather: []
+    weather: [],
+    day: {
+        0: 'Monday',
+        1: 'Tuesday',
+        2: 'Wednesday',
+        3: 'Thursday',
+        4: 'Friday',
+        5: 'Saturday',
+        6: 'Sunday'
+    },
+
 }
 
 export const getWeeklyWeather = async function() {
@@ -14,12 +24,20 @@ export const getWeeklyWeather = async function() {
         const data = await res.json();
         const weatherList = data.list;
 
-        for (let i = 0; i < 7; i++){
-            const newObj = {
-                weather: weatherList[i].weather[0].main,
-                day: i+1
+        let prevDay = '';
+        for (let i = 0; i < weatherList.length; i++){
+            const weekDay = new Date(weatherList[i].dt_txt.split(' ')[0]).getDay();
+            const day = state.day[weekDay];
+            if (prevDay === day) {}
+            else {
+                const newObj = {
+                    weather: `${weatherList[i].weather[0].main !== 'Clear'? weatherList[i].weather[0].main : 'Sunny'}`,
+                    day: day,
+                    temp: Math.trunc(weatherList[i].main.temp),
+                }
+                state.weather.push(newObj);
             }
-            state.weather.push(newObj);
+            prevDay = day;
         }
 
     }
@@ -37,7 +55,7 @@ export const getCurrentLocation = async function() {
                 const lat = position.coords.latitude;
                 const long = position.coords.longitude;
 
-                const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=871f201fcc3d431c8ed2cd2428e81abc`);
+                const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=${GEO_API_KEY}`);
                 if (!res.ok)  throw new Error('Unable to get your location')
 
                 const data = await res.json();

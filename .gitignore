@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+.parcel_cache
 
 # Runtime data
 pids

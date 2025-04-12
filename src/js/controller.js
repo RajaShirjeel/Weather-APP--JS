@@ -1,10 +1,13 @@
 import { state, getCurrentWeather, getWeeklyWeather, getCurrentLocation } from "./model";
+import WeatherView from "./views/WeatherView";
 
-const getWeatherController = async function() {
+const showWeatherController = async function() {
     try {
         await getCurrentLocation();
         await getWeeklyWeather();
-        console.log(state)
+        WeatherView.__data = state;
+        WeatherView.render()
+
     }
     catch(e) {
         console.log(e)
@@ -12,7 +15,7 @@ const getWeatherController = async function() {
 }
 
 const init = function(){
-    getWeatherController()
+    showWeatherController();
 }
 
 init();

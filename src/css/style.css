@@ -28,10 +28,103 @@ body {
 
 .weather-card--container {
     background-color: #3D2F82;
-    width: 40vw;
-    height: 85vh;
+    width: 50vw;
+    height: 84vh;
     margin-top: 4rem;
     border-radius: 24px;
+}
+
+.weather-card--content {
+    padding: 6rem 2.5rem;
+}
+
+.day-card {
+   background-image: url('https://t3.ftcdn.net/jpg/03/57/76/24/360_F_357762401_Q6IYG6rSR6yoy2mnBsOF3ZtuYVzBNARe.jpg');
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: cover;
+   margin-top: 4rem;
+   border-radius: 14px;
+   padding: 3rem;
+   color: black;
+}
+
+.day-card--weather--info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.day-card--weather-img {
+    height: 60px;
+    width: 60px;
+}
+
+.day-card--day {
+    font-size: 2.5rem;
+}
+
+.day-card--weather {
+    font-size: 2.2rem;
+}
+
+.day-card--info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+}
+
+.temp {
+    font-size: 1.8rem;
+}
+
+.info {
+    font-size: 1.8rem;
+}
+
+.city {
+    font-size: 1.8rem;
+}
+
+.country {
+    font-size: 1.8rem;
+
+}
+
+.weather-card--weather--info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.weather-info--day {
+    font-size: 2.7rem;
+}
+
+.weather--info-weather {
+    font-size: 2.2rem;
+    color: #E1D9D1
+}
+
+.weather--info-show {
+    display: flex;
+    align-items: center;
+    gap: .6rem
+}
+
+.weather-img {
+    width: 40px;
+    height: 40px;
+}
+
+.weather-info--temp {
+    font-size: 2.4rem;
+}
+
+.heading-location {
+    font-size: 3rem;
 }
 
 .form-container {
