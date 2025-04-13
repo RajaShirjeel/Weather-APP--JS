@@ -13,7 +13,6 @@ export const state = {
         5: 'Saturday',
         6: 'Sunday'
     },
-
 }
 
 export const getWeeklyWeather = async function() {
@@ -22,9 +21,12 @@ export const getWeeklyWeather = async function() {
         if (!res.ok) throw new Error(`Unable to get weather info for you location(${state.city}) please check and try again!`);
 
         const data = await res.json();
+        state.country = data.city.country;
         const weatherList = data.list;
+        const weatherArr = [];
 
-        let prevDay = '';
+
+        let prevDay = '';        
         for (let i = 0; i < weatherList.length; i++){
             const weekDay = new Date(weatherList[i].dt_txt.split(' ')[0]).getDay();
             const day = state.day[weekDay];
@@ -35,10 +37,11 @@ export const getWeeklyWeather = async function() {
                     day: day,
                     temp: Math.trunc(weatherList[i].main.temp),
                 }
-                state.weather.push(newObj);
+                weatherArr.push(newObj);
             }
             prevDay = day;
         }
+        state.weather = weatherArr;
 
     }
     catch (err){
@@ -56,15 +59,14 @@ export const getCurrentLocation = async function() {
                 const long = position.coords.longitude;
 
                 const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=${GEO_API_KEY}`);
-                if (!res.ok)  throw new Error('Unable to get your location')
+                if (!res.ok)  throw new Error('Unable to get your location!')
 
                 const data = await res.json();
                 state.city = data.results[0].city;
-                state.country = data.results[0].country;
                 resolve();
             }
             catch(e){
-                reject(e)
+                reject(e);
             }
 
         }, reject)

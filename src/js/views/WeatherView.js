@@ -10,12 +10,44 @@ const weatherImages = {
 
 class WeatherView {
     __parentEl = document.querySelector('.weather-card--container');
+    __weatherForm = document.querySelector('.city-form');
+    __formInput = document.querySelector('.input-city');
     __data;
+    
+    addFormHandler(handler) {
+        this.__weatherForm.addEventListener('submit', (e) => {
+            e.preventDefault()
+            const cityName = this.__formInput.value;
+            this.__formInput.value = '';
+            handler(cityName);
+        })
+    }
 
-    render() {
+    renderLoader() {
+        const markup = `
+            <div class="loader-container">
+                <span class="loader"></span>
+            </div>
+        `
+        this.__parentEl.innerHTML = '';
+        this.__parentEl.insertAdjacentHTML('afterbegin', markup);
+    }
+
+    renderError(errorMsg) {
+        const markup = `
+             <div class="error-msg--container">
+                <p class="error-msg--text">${errorMsg}</p>
+            </div>
+        `
+        this.__parentEl.innerHTML = '';
+        this.__parentEl.insertAdjacentHTML('afterbegin', markup);
+    }
+
+    render(data) {
+        this.__data = data;
         let totalMarkup = `
             <div class="weather-card--content">
-                <div class="heading-location">${this.__data.city}, ${this.__data.country}</div>
+                <div class="heading-location"><span>${this.__data.city}</span>, <span>${this.__data.country}</span></div>
             `
 
         this.__data.weather.forEach((obj, i) => {
@@ -38,7 +70,7 @@ class WeatherView {
                             
                             <div class="day-card--info--location">
                                 <p class="city">${this.__data.city}</p>
-                                <p class="country">India</p>
+                                <p class="country">${this.__data.country}</p>
                             </div>
                         </div>
                     </div>
@@ -63,8 +95,10 @@ class WeatherView {
                 totalMarkup += markup
             }
         });
+
         totalMarkup += '</div>'
 
+        this.__parentEl.innerHTML = '';
         this.__parentEl.insertAdjacentHTML('afterbegin', totalMarkup);
     }
 }
